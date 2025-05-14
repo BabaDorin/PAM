@@ -1,0 +1,53 @@
+﻿@page "/update/{Name}"
+@using Laborator_2_Medication_Planner.Models
+@inject MedicationService MedService
+@inject NavigationManager Navigation
+
+<h3 class="text-center mt-4">Modifica medicamentul</h3>
+
+@if (medication != null)
+{
+        <div class="form-group w-50 mx-auto">
+            <label>Denumire</label>
+            <input class="form-control" @bind="medication.Name" />
+
+            <label class="mt-2">Doza</label>
+            <input class="form-control" @bind="medication.Dosage" />
+
+            <label class="mt-2">Data</label>
+            <input type="date" class="form-control" @bind-value="date" @bind-value:event="oninput" />
+
+            <label class="mt-2">Ora</label>
+            <input type="time" class="form-control" @bind-value="time" @bind-value:event="oninput" />
+
+            <button class="btn btn-success mt-4 w-100" @onclick="UpdateMedication">Salveaza</button>
+        </div>
+}
+
+@code {
+    [Parameter] public string Name { get; set; } = string.Empty;
+    private Medication? medication;
+    private DateOnly date;
+    private TimeOnly time;
+
+    protected override void OnInitialized()
+    {
+        medication = MedService.Medications.FirstOrDefault(m => m.Name == Name);
+        if (medication != null)
+        {
+            date = DateOnly.FromDateTime(medication.Time);
+            time = TimeOnly.FromDateTime(medication.Time);
+        }
+    }
+
+    private async Task UpdateMedication()
+    {
+        if (medication != null)
+        {
+            medication.Time = date.ToDateTime(time);
+            MedService.Save();
+            await Task.Delay(100);
+            Navigation.NavigateTo("/");
+        }
+    }
+}

@@ -1,0 +1,146 @@
+﻿body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f8faff;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.card {
+    background: linear-gradient(1deg, #fbfcff, #eef1ff);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 112, 243, 0.08);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    transition: 0.3s;
+}
+
+    .card:hover {
+        box-shadow: 0 6px 16px rgba(0, 112, 243, 0.18);
+    }
+
+    .card.past {
+        background: #e0e0e0;
+        color: #777;
+        box-shadow: none;
+    }
+
+.section-title {
+    font-weight: 400;
+    font-size: 0.9rem;
+    margin-top: 2rem;
+    color: #444cf7;
+    text-align: center
+}
+
+.med-time {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: #2c2c2c;
+}
+
+.med-name {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.med-dosage {
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.med-remaining {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 0.3rem;
+}
+
+.card-actions {
+    margin-top: 0.7rem;
+}
+
+    .card-actions button {
+        background: transparent;
+        border: 1px solid #337ab7;
+        color: #337ab7;
+        font-size: 0.8rem;
+        border-radius: 8px;
+        padding: 0.3rem 0.6rem;
+        cursor: pointer;
+    }
+
+        .card-actions button:hover {
+            background: #eaf2fd;
+        }
+
+.btn-add {
+    background: linear-gradient(to right, #a5c8f6, #d1e7ff);
+    border: none;
+    color: #002f6c;
+    font-weight: 600;
+    border-radius: 14px;
+    padding: 0.6rem 1.4rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    transition: 0.2s;
+    text-decoration: none;
+}
+
+    .btn-add:hover {
+        background: linear-gradient(to right, #93bdf4, #cde0ff);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        text-decoration: none;
+    }
+
+input[type="text"].search-box {
+    width: 90%;
+    max-width: 500px;
+    margin: 0 auto 1.5rem auto;
+    display: block;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccd;
+    border-radius: 12px;
+    font-size: 1rem;
+}
+
+input, select, .form-control {
+    border-radius: 14px !important;
+    border: 1px solid #ccc;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: start;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-edit {
+    background: linear-gradient(to right, #4e9ddc, #82c0ff);
+    border: none;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn-cancel {
+    background-color: #ccc;
+    border: none;
+    color: #afb0b2;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+body {
+    background-color: #e5e5f7;
+    opacity: 0.8;
+    background-image: radial-gradient(#444cf7 0.5px, transparent 0.5px), radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px);
+    background-size: 20px 20px;
+    background-position: 0 0,10px 10px;
+}

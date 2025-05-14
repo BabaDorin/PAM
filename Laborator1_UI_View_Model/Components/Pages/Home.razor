@@ -1,0 +1,76 @@
+﻿@page "/"
+@using Laborator1_UI_View_Model.Models
+@using Plugin.LocalNotification
+
+<div class="container">
+    <h1>✨ Laborator 1</h1>
+
+    <div class="form-group">
+        <input @bind="userInput" placeholder="Input..." />
+    </div>
+
+    <div class="button-group">
+        <button @onclick="ShowNotification">🔔 Notify me in 10s</button>
+        <button @onclick="SearchGoogle">🌐 Google Search</button>
+        <button @onclick="AddItem">➕ Add to List</button>
+        <button class="danger" @onclick="ClearList">🗑️ Clear List</button>
+    </div>
+
+    <div class="list">
+        @foreach (var item in items)
+        {
+            <div class="card">
+                <div class="title">@item.Title</div>
+                <div class="description">@item.Content</div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private string userInput;
+    private List<CustomItem> items = new();
+
+    private async Task ShowNotification()
+    {
+        var notification = new NotificationRequest
+            {
+                NotificationId = 100,
+                Title = userInput,
+                Description = "This is the push-style notification after 10 seconds.",
+                Schedule = new NotificationRequestSchedule
+                {
+                    NotifyTime = DateTime.Now.AddSeconds(10)
+                }
+            };
+
+        await LocalNotificationCenter.Current.Show(notification);
+    }
+
+    private async Task SearchGoogle()
+    {
+        if (!string.IsNullOrWhiteSpace(userInput))
+        {
+            var url = $"https://www.google.com/search?q={Uri.EscapeDataString(userInput)}";
+            await Launcher.Default.OpenAsync(url);
+        }
+    }
+
+    private void AddItem()
+    {
+        if (!string.IsNullOrWhiteSpace(userInput))
+        {
+            items.Add(new CustomItem
+                {
+                    Title = $"📝 {userInput}",
+                    Content = $"This is a detailed view of '{userInput}'"
+                });
+            userInput = string.Empty;
+        }
+    }
+
+    private void ClearList()
+    {
+        items.Clear();
+    }
+}

@@ -1,0 +1,81 @@
+﻿@page "/"
+@using Laborator_2_Medication_Planner.Models
+@inject NavigationManager Navigation
+@inject MedicationService MedService
+
+
+<h2 class="text-center mt-4">Medicamentele tale</h2>
+
+<div class="text-center mt-4">
+    <a class="btn-add" href="/add">+ Adauga un medicament</a>
+</div>
+
+<input type="text" class="search-box mt-4" placeholder="Cautare..." @bind="searchTerm" @bind:event="oninput" />
+
+@foreach (var group in FilteredBySearch.GroupBy(m => m.Time.Date).OrderBy(g => g.Key))
+{
+    <div class="section-title">@group.Key.ToString("dddd, MMM dd")</div>
+
+    @foreach (var med in group.OrderBy(m => m.Time))
+    {
+        var isPast = med.Time < DateTime.Now;
+
+        <div class="card @(isPast ? "past" : "")">
+            <div class="med-time">@med.Time.ToShortTimeString()</div>
+            <div class="med-name">💊 @med.Name</div>
+            <div class="med-dosage">Doza: @med.Dosage</div>
+
+            @if (med.Time.Date == DateTime.Today)
+            {
+                <div class="med-remaining">@GetRemainingTime(med.Time)</div>
+            }
+
+            @if (!isPast)
+            {
+                <div class="card-actions">
+                    <button class="btn-edit" @onclick="() => EditMedication(med)">Modifică</button>
+                    <button class="btn-cancel" @onclick="() => CancelMedication(med)">Elimină</button>
+                </div>
+            }
+            else
+            {
+                <div class="card-actions">
+                    <button class="btn-cancel" @onclick="() => CancelMedication(med)">Elimină</button>
+                </div>
+            }
+        </div>
+    }
+}
+
+@code {
+    private string searchTerm = string.Empty;
+
+    private IEnumerable<Medication> FilteredBySearch =>
+        MedService.Medications
+            .Where(m => m.Time.Date >= DateTime.Today)
+            .Where(m => string.IsNullOrWhiteSpace(searchTerm) || m.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+
+    private string GetRemainingTime(DateTime time)
+    {
+        var span = time - DateTime.Now;
+        if (span.TotalSeconds < 0)
+            return "Consumat";
+        if (span.TotalMinutes < 1)
+            return "în mai puțin de un minut";
+        if (span.TotalMinutes < 60)
+            return $"în {Math.Floor(span.TotalMinutes)} minute";
+        return $"în {Math.Floor(span.TotalHours)} ore";
+    }
+
+    private void EditMedication(Medication med)
+    {
+        var encodedName = Uri.EscapeDataString(med.Name);
+        Navigation.NavigateTo($"/update/{encodedName}");
+    }
+
+    private void CancelMedication(Medication med)
+    {
+        MedService.Medications.Remove(med);
+        MedService.Save();
+    }
+}
