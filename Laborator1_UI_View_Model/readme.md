@@ -1,3 +1,3 @@
 # Laborator 1 - PAM -  UI View Model
 
-![image](https://imgur.com/a/gtkF6pH)
+![image](https://i.imgur.com/c3TF4AG.gif)
